@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestellformular</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            padding: 10px;
+            font-size: 14px;
+            margin: 5px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .thank-you-message {
+            padding: 20px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px;
+            background-color: #5cb85c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .form-header {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .instructions {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .add-product-btn-container {
+            margin-top: 10px; /* Button weiter nach oben verschoben */
+            display: flex;
+            justify-content: flex-start;
+        }
+        .add-product-btn {
+            padding: 5px 10px;
+            background-color: transparent;
+            color: #000; /* Schwarzer Text */
+            font-size: 12px;
+            border: 1px solid #ff9800;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none; /* Keine Unterstreichung */
+        }
+        .add-product-btn:hover {
+            background-color: #ffeb3b;
+        }
+        .product-item {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .product-item select, .product-item input {
+            flex: 1;
+        }
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bestellformular</h1>
+
+        <div class="instructions">
+            <p>Ist eine Farbe nicht mehr aufgelistet, ist diese nicht mehr verfügbar. Die Liste wird fortlaufend von mir aktualisiert. Sollte beim Druck ein Problem auftreten, melde ich mich direkt bei der entsprechenden Person.</p>
+            <p><strong>Preise:</strong> Klein: 8.- / Groß: 14.-</p>
+        </div>
+
+        <form id="orderForm">
+            <!-- Name -->
+            <label for="name">Vollständiger Name *</label>
+            <input type="text" id="name" name="name" required>
+
+            <!-- Adresse -->
+            <label for="street">Straße *</label>
+            <input type="text" id="street" name="street" required>
+
+            <label for="zipcode">PLZ/Ort *</label>
+            <input type="text" id="zipcode" name="zipcode" required>
+
+            <!-- Telefonnummer -->
+            <label for="phone">Handynummer *</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <!-- E-Mail-Adresse -->
+            <label for="email">Mailadresse *</label>
+            <input type="email" id="email" name="email" required>
+
+            <!-- Produkte -->
+            <div id="productsContainer">
+                <div class="product-item">
+                    <select name="productChoice[]" required>
+                        <option value="">Produkt</option>
+                        <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
+                        <option value="Thermomix Weihnachtskugel">Thermomix Weihnachtskugel</option>
+                    </select>
+                    <select name="productColor[]" required>
+                        <option value="Farbe">Farbe</option>
+                        <option value="Rot">Rot</option>
+                        <option value="Blau">Blau</option>
+                        <option value="Grün">Grün</option>
+                        <option value="Weiß">Weiß</option>
+                    </select>
+                    <input type="number" name="productQuantity[]" value="" required min="1" placeholder="Menge">
+                    <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
+                </div>
+            </div>
+
+            <!-- Produkt hinzufügen -->
+            <div class="add-product-btn-container">
+                <div class="add-product-btn">
+                    <a href="javascript:void(0);" onclick="addProduct()">Produkt hinzufügen</a>
+                </div>
+            </div>
+
+            <!-- Rabattcode -->
+            <div id="discountCodeField">
+                <label for="discountCode">Rabattcode (optional):</label>
+                <input type="text" id="discountCode" name="discountCode" oninput="handleDiscountCode()">
+            </div>
+
+            <!-- Dynamische Felder für Rabattcode -->
+            <div id="paymentMethodField" class="hidden">
+                <label for="paymentMethod">Bezahlmethode:</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="Twint">Twint</option>
+                    <option value="Bar an Jeanine Keller" class="hidden">Bar an Jeanine Keller</option>
+                </select>
+            </div>
+
+            <div id="teamLeadField" class="hidden">
+                <label for="teamLead">Teamleitung:</label>
+                <input type="text" id="teamLead" name="teamLead">
+            </div>
+
+            <!-- Absenden -->
+            <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
+        </form>
+    </div>
+
+    <script>
+        function handleDiscountCode() {
+            const discountCode = document.getElementById('discountCode').value;
+            const paymentMethodField = document.getElementById('paymentMethodField');
+            const teamLeadField = document.getElementById('teamLeadField');
+            const paymentMethodSelect = document.getElementById('paymentMethod');
+
+            // Rabattcode TM -> zeigt Bezahlmethode und Teamleitung
+            if (discountCode === 'TM') {
+                teamLeadField.classList.remove('hidden');
+                paymentMethodField.classList.remove('hidden');
+                paymentMethodSelect.querySelectorAll('option')[1].classList.remove('hidden'); 
+                paymentMethodSelect.querySelectorAll('option')[2].classList.add('hidden');
+            } else {
+                paymentMethodField.classList.add('hidden');
+                teamLeadField.classList.add('hidden');
+            }
+        }
+
+        function addProduct() {
+            const productsContainer = document.getElementById('productsContainer');
+            const newProductItem = document.createElement('div');
+            newProductItem.classList.add('product-item');
+            newProductItem.innerHTML = `
+                <select name="productChoice[]" required>
+                    <option value="">Produkt</option>
+                    <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
+                    <option value="Thermomix Weihnachtskugel">Thermomix Weihnachtskugel</option>
+                </select>
+                <select name="productColor[]" required>
+                    <option value="Farbe">Farbe</option>
+                    <option value="Rot">Rot</option>
+                    <option value="Blau">Blau</option>
+                    <option value="Grün">Grün</option>
+                    <option value="Weiß">Weiß</option>
+                </select>
+                <input type="number" name="productQuantity[]" value="" required min="1" placeholder="Menge">
+                <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
+            `;
+            productsContainer.appendChild(newProductItem);
+        }
+
+        function removeProduct(button) {
+            button.closest('.product-item').remove();
+        }
+
+        function submitForm() {
+            // Submit the form using EmailJS
+            emailjs.init('bekZiSDT9im5xlaPF'); // Deine Public Key
+
+            const form = document.getElementById('orderForm');
+            emailjs.sendForm('service_kfstl3c', 'template_15krpa2', form)
+                .then(function(response) {
+                    console.log('Erfolgreich gesendet:', response);
+                    // Thank you message after successful submission
+                    document.getElementById('orderForm').reset();
+                    alert('Vielen Dank für Ihre Bestellung!');
+                }, function(error) {
+                    console.log('Fehler beim Senden:', error);
+                    alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
+                });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</body>
+</html>
