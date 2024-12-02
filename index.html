@@ -233,16 +233,17 @@ Hier klicken, um die Preislliste anzuzeigen.
 
             <!-- Angepasste Preise anzeigen -->
             <div id="discountPrices" class="hidden" style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
-                <header>Der Versand ist bei Ihnen standartmässig über Jeanine Keller, falls dies anders gewünscht ist, schreiben Sie dies bitte ins Feld Kommentar.</header>
+                <header>Der Versand läuft standartmässig über Jeanine Keller, falls dies anders gewünscht ist, schreiben Sie dies bitte ins Feld: Kommentar.</header>
                 <br>
                 <br>
-                <strong>Die Preise für Sie sind wie folgt:</strong>
+                <strong>Die Preise sind für Sie wie folgt:</strong>
                 <p>Thermomix Schlüsselanhänger: 5.-</p>
                 <p>Thermomix Christbaumschmuck: 10.-</p>
-                <p>=> Die anderen Preise sind für Sie die selben.</p>
+                <p>=> Für alle anderen 3D-Drucke gelten die Standardpreise.</p>
                 <br>
                 <br>
-                <p>Falls Sie einen Thermomix der Sonderfarben wünschen, machen Sie das selbe, wie mit den Produkten oben, für jedes einzelne. z.B.: Thermomix Schlüsselanhänger, lachs (11), 6.</p>
+                <p>Falls Sie einen Thermomix einer Sonderfarbe wünschen, notieren Sie dies bitte im Kommentarfeld.</p>
+                <p>Z.B.: Thermomix Schlüsselanhänger, lachs (11), 6</p>
             </div>
 
             <!-- Dynamische Felder für Rabattcode -->
@@ -250,13 +251,13 @@ Hier klicken, um die Preislliste anzuzeigen.
                 <label for="paymentMethod">Bezahlmethode *</label>
                 <select id="paymentMethod" name="paymentMethod" required>
                     <option value="Twint">Twint</option>
-                    <option value="Bar an Jeanine Keller">Bar an Jeanine Keller</option>
+                    <option value="bar an Jeanine Keller">bar an Jeanine Keller</option>
                 </select>
             </div>
 
             <div id="teamLeadField" class="hidden" style="margin-top: 10px;">
                 <label for="teamLead">Teamleitung *</label>
-                <input type="text" id="teamLead" name="teamLead">
+                <input type="text" id="teamLead" name="teamLead" placeholder="Max Mustermann">
             </div>
 
             <!-- Kommentar -->
