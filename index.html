@@ -106,13 +106,24 @@
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 5px 10px;b
             border-radius: 5px;
             cursor: pointer;
             flex-shrink: 0;
         }
         .remove-btn:hover {
             background-color: #c0392b;
+        }
+        .shipping-method {
+            background-color: white;
+            color: #333; /* Textfarbe */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
     </style>
 </head>
@@ -165,13 +176,12 @@
             <label for="email">Mailadresse *</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="versandart">Versandart *</label>
-            <select name="versandart" required>
+            <select name="versandart" class="shipping-method" required>
                 <option value="">Versandart</option>
                 <option value="Abholung in Wolfhausen ZH">Abholung in Wolfhausen ZH</option>
                 <option value="Postversand (+ 8.5.-)">Postversand (+ 8.5.-)</option>
             </select>
-
+           
             <!-- Produkte -->
             <div id="productsContainer">
             </div>
