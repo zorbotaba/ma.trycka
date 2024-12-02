@@ -119,18 +119,37 @@
 <body>
 
     <div class="container">
-        <h1>Bestellformular</h1>
 
+        <div style="display: flex; align-items: center;">
+            <img src="Logo.png" alt="ma.trycka Logo" width="60" height="60">
+            <head style="margin-left: 10px; font-size: 1.5em;">ma.trycka</head>
+        </div>
+        
+        <h1>Bestellformular</h1>
+        
+      
         <div class="instructions">
-            <p>Ist eine Farbe nicht mehr aufgelistet, ist diese nicht mehr verfügbar. Die Liste wird fortlaufend von mir aktualisiert. Sollte beim Druck ein Problem auftreten, melde ich mich direkt bei der entsprechenden Person.</p>
-            <p><strong>Preise:</strong> Klein: 8.- / Groß: 14.-</p>
+            <p>Ist eine Farbe nicht mehr aufgelistet, ist diese nicht mehr verfügbar. Die Liste wird fortlaufend von mir aktualisiert. Sollte beim Druck ein Problem auftreten, melde ich mich direkt bei der entsprechenden Person.</p><p>Kästchen mit einem Stern (*) sind Pflichtfelder.</p>
+            <br>
+            <p><strong>Preise:</strong></p>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between; width: 260px;">
+                    <span>Thermomix Schlüsselanhänger:</span>
+                    <span>8.-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; width: 260px;">
+                    <span>Thermomix Weihnachtskugel:</span>
+                    <span>14.-</span>
+                </div>
+            </div>       
+            
         </div>
 
         <form id="orderForm">
             <!-- Name -->
             <label for="name">Vollständiger Name *</label>
             <input type="text" id="name" name="name" required>
-
+           
             <!-- Adresse -->
             <label for="street">Straße *</label>
             <input type="text" id="street" name="street" required>
@@ -163,17 +182,24 @@
                 <input type="text" id="discountCode" name="discountCode" oninput="handleDiscountCode()">
             </div>
 
+            <!-- Angepasste Preise anzeigen -->
+            <div id="discountPrices" class="hidden" style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+                <strong>Die Preise für Sie sind wie folgt:</strong>
+                <p>Thermomix Schlüsselanhänger: 5.-</p>
+                <p>Thermomix Weihnachtskugel: 10.-</p>
+            </div>
+
             <!-- Dynamische Felder für Rabattcode -->
-            <div id="paymentMethodField" class="hidden">
-                <label for="paymentMethod">Bezahlmethode:</label>
+            <div id="paymentMethodField" class="hidden" style="margin-top: 10px;">
+                <label for="paymentMethod">Bezahlmethode *</label>
                 <select id="paymentMethod" name="paymentMethod" required>
                     <option value="Twint">Twint</option>
-                    <option value="Bar an Jeanine Keller" class="hidden">Bar an Jeanine Keller</option>
+                    <option value="Bar an Jeanine Keller">Bar an Jeanine Keller</option>
                 </select>
             </div>
 
-            <div id="teamLeadField" class="hidden">
-                <label for="teamLead">Teamleitung:</label>
+            <div id="teamLeadField" class="hidden" style="margin-top: 10px;">
+                <label for="teamLead">Teamleitung *</label>
                 <input type="text" id="teamLead" name="teamLead">
             </div>
 
@@ -183,27 +209,26 @@
 
             <!-- Absenden -->
             <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
-        </form>
-    </div>
 
-    <script>
-        function handleDiscountCode() {
-            const discountCode = document.getElementById('discountCode').value;
-            const paymentMethodField = document.getElementById('paymentMethodField');
-            const teamLeadField = document.getElementById('teamLeadField');
-            const paymentMethodSelect = document.getElementById('paymentMethod');
+            <script>
+                function handleDiscountCode() {
+                    const discountCode = document.getElementById('discountCode').value;
+                    const paymentMethodField = document.getElementById('paymentMethodField');
+                    const teamLeadField = document.getElementById('teamLeadField');
+                    const discountPrices = document.getElementById('discountPrices');
 
-            // Rabattcode TM -> zeigt Bezahlmethode und Teamleitung
-            if (discountCode === 'TM') {
-                teamLeadField.classList.remove('hidden');
-                paymentMethodField.classList.remove('hidden');
-                paymentMethodSelect.querySelectorAll('option')[1].classList.remove('hidden');
-                paymentMethodSelect.querySelectorAll('option')[2].classList.add('hidden');
-            } else {
-                paymentMethodField.classList.add('hidden');
-                teamLeadField.classList.add('hidden');
-            }
-        }
+                    // Rabattcode: Thermomixberater*in_00
+                    if (discountCode === 'Thermomixberater*in_00') {
+                        teamLeadField.classList.remove('hidden');
+                        paymentMethodField.classList.remove('hidden');
+                        discountPrices.classList.remove('hidden'); // Zeige die Preise an
+                    } else {
+                        paymentMethodField.classList.add('hidden');
+                        teamLeadField.classList.add('hidden');
+                        discountPrices.classList.add('hidden'); // Verstecke die Preise
+                    }
+                }
+
 
         let number = 1;
 
@@ -219,10 +244,14 @@
                 </select>
                 <select name="productColor${number}" required>
                     <option value="Farbe">Farbe</option>
-                    <option value="Rot">Rot</option>
-                    <option value="Blau">Blau</option>
-                    <option value="Grün">Grün</option>
-                    <option value="Weiß">Weiß</option>
+                    <option value="weiss (1) - PLA">weiss (1) - PLA </option>
+                    <option value="schwarz (2) - PLA">schwarz (2) - PLA</option>
+                    <option value="weiss (3) - TPU">weiss (3) - TPU</option>
+                    <option value="dunkelblau (4) - PET-G">dunkelblau (4) - PET-G</option>
+                    <option value="durchsichtig (5) - PET-G">durchsichtig (5) - PET-G</option>
+                    <option value="violett (7) - PLA">violett (7) - PLA</option>
+                    <option value="grün (18) - PLA">grün (18) - PLA</option>
+                    <option value="rot (22) - PLA">rot (22) - PLA</option>
                 </select>
                 <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
                 <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
