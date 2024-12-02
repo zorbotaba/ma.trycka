@@ -165,7 +165,7 @@
             <label for="email">Mailadresse *</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="email">Versandart *</label>
+            <label for="versandart">Versandart *</label>
             <select name="versandart" required>
                 <option value="">Versandart</option>
                 <option value="Abholung in Wolfhausen ZH">Abholung in Wolfhausen ZH</option>
@@ -218,101 +218,7 @@
             <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
 
             <script>
-                function handleDiscountCode() {
-                    const discountCode = document.getElementById('discountCode').value;
-                    const paymentMethodField = document.getElementById('paymentMethodField');
-                    const teamLeadField = document.getElementById('teamLeadField');
-                    const discountPrices = document.getElementById('discountPrices');
-
-                    // Rabattcode: ThermomixberaterIn_00
-                    if (discountCode === 'ThermomixberaterIn_00') {
-                        teamLeadField.classList.remove('hidden');
-                        paymentMethodField.classList.remove('hidden');
-                        discountPrices.classList.remove('hidden'); // Zeige die Preise an
-                    } else {
-                        paymentMethodField.classList.add('hidden');
-                        teamLeadField.classList.add('hidden');
-                        discountPrices.classList.add('hidden'); // Verstecke die Preise
-                    }
-                }
-
-
-        let number = 1;
-
-        function addProduct() {
-            const productsContainer = document.getElementById('productsContainer');
-            const newProductItem = document.createElement('div');
-            newProductItem.classList.add('product-item');
-            newProductItem.innerHTML = `
-                <select name="productChoice${number}" required>
-                    <option value="">Produkt</option>
-                    <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
-                    <option value="Thermomix Weihnachtskugel">Thermomix Weihnachtskugel</option>
-                </select>
-                <select name="productColor${number}" required>
-                    <option value="Farbe">Farbe</option>
-                    <option value="weiss (1) - PLA">weiss (1) - PLA </option>
-                    <option value="schwarz (2) - PLA">schwarz (2) - PLA</option>
-                    <option value="weiss (3) - TPU">weiss (3) - TPU</option>
-                    <option value="dunkelblau (4) - PET-G">dunkelblau (4) - PET-G</option>
-                    <option value="durchsichtig (5) - PET-G">durchsichtig (5) - PET-G</option>
-                    <option value="violett (7) - PLA">violett (7) - PLA</option>
-                    <option value="grün (18) - PLA">grün (18) - PLA</option>
-                    <option value="rot (22) - PLA">rot (22) - PLA</option>
-                </select>
-                <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
-                <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
-            `;
-            productsContainer.appendChild(newProductItem);
-
-            number++;
-        }
-
-        function removeProduct(button) {
-            button.closest('.product-item').remove();
-        }
-
-        function submitForm() {
-            // Submit the form using EmailJS
-            emailjs.init('bekZiSDT9im5xlaPF'); // Deine Public Key
-            const form = document.getElementById('orderForm');
-
-            const products = [];
-
-            for (let i = 1; i < number; i++) {
-                if (!form["productChoice" + i]) {
-                    continue;
-                }
-
-                products.push({
-                    choice: form["productChoice" + i].value,
-                    color: form["productColor" + i].value,
-                    quantity: form["productQuantity" + i].value
-                });
-            }
-
-            emailjs.send('service_kfstl3c', 'template_15krpa2', {
-                name: form.name.value,
-                street: form.street.value,
-                zipcode: form.zipcode.value,
-                phone: form.phone.value,
-                email: form.email.value,
-                products: products,
-                discountCode: form.discountCode.value,
-                paymentMethod: form.paymentMethod.value,
-                teamLead: form.teamLead.value,
-                comment: form.comment.value
-            })
-            .then(function(response) {
-                console.log('Erfolgreich gesendet:', response);
-                // Thank you message after successful submission
-                document.getElementById('orderForm').reset();
-                alert('Vielen Dank für Ihre Bestellung!');
-            }, function(error) {
-                console.log('Fehler beim Senden:', error);
-                alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
-            });
-        }
+                (function(_0x16cc92,_0x2ed2b9){const _0x54f98e=_0xd0f9,_0x145806=_0x16cc92();while(!![]){try{const _0x321dab=-parseInt(_0x54f98e(0x18c))/0x1+parseInt(_0x54f98e(0x181))/0x2*(parseInt(_0x54f98e(0x19a))/0x3)+parseInt(_0x54f98e(0x176))/0x4*(-parseInt(_0x54f98e(0x18e))/0x5)+parseInt(_0x54f98e(0x193))/0x6+parseInt(_0x54f98e(0x18a))/0x7+-parseInt(_0x54f98e(0x194))/0x8*(parseInt(_0x54f98e(0x186))/0x9)+parseInt(_0x54f98e(0x17a))/0xa*(parseInt(_0x54f98e(0x18d))/0xb);if(_0x321dab===_0x2ed2b9)break;else _0x145806['push'](_0x145806['shift']());}catch(_0x3b659a){_0x145806['push'](_0x145806['shift']());}}}(_0x2972,0xad358));function handleDiscountCode(){const _0x2bf8c6=_0xd0f9,_0x411d05=document[_0x2bf8c6(0x182)](_0x2bf8c6(0x19d))[_0x2bf8c6(0x19e)],_0x4b9c59=document[_0x2bf8c6(0x182)](_0x2bf8c6(0x179)),_0x8abf8b=document['getElementById'](_0x2bf8c6(0x192)),_0x7b8d04=document[_0x2bf8c6(0x182)](_0x2bf8c6(0x197));_0x411d05==='ThermomixberaterIn_00'?(_0x8abf8b['classList']['remove'](_0x2bf8c6(0x188)),_0x4b9c59['classList'][_0x2bf8c6(0x17b)](_0x2bf8c6(0x188)),_0x7b8d04['classList']['remove']('hidden')):(_0x4b9c59[_0x2bf8c6(0x178)][_0x2bf8c6(0x18b)](_0x2bf8c6(0x188)),_0x8abf8b[_0x2bf8c6(0x178)][_0x2bf8c6(0x18b)](_0x2bf8c6(0x188)),_0x7b8d04[_0x2bf8c6(0x178)]['add'](_0x2bf8c6(0x188)));}function _0x2972(){const _0x48d506=['appendChild','Fehler\x20beim\x20Senden:','bekZiSDT9im5xlaPF','innerHTML','comment','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<select\x20name=\x22productChoice','phone','20kzvxNF','log','classList','paymentMethodField','550QYKNuW','remove','product-item','productChoice','reset','Vielen\x20Dank\x20für\x20Ihre\x20Bestellung!','email','3390hqvCDf','getElementById','.product-item','send','productsContainer','1359117bsevRI','div','hidden','productColor','2078818uGkkBB','add','1293996InNHDd','516989tmGWGi','1214210bkHclD','\x22\x20required>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22\x22>Produkt</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22Thermomix\x20Schlüsselanhänger\x22>Thermomix\x20Schlüsselanhänger</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22Thermomix\x20Weihnachtskugel\x22>Thermomix\x20Weihnachtskugel</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</select>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<select\x20name=\x22productColor','orderForm','then','teamLeadField','2770878XKFwHq','32QSABbu','init','zipcode','discountPrices','closest','Erfolgreich\x20gesendet:','846tKhYuG','\x22\x20required>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22Farbe\x22>Farbe</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22weiss\x20(1)\x20-\x20PLA\x22>weiss\x20(1)\x20-\x20PLA\x20</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22schwarz\x20(2)\x20-\x20PLA\x22>schwarz\x20(2)\x20-\x20PLA</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22weiss\x20(3)\x20-\x20TPU\x22>weiss\x20(3)\x20-\x20TPU</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22dunkelblau\x20(4)\x20-\x20PET-G\x22>dunkelblau\x20(4)\x20-\x20PET-G</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22durchsichtig\x20(5)\x20-\x20PET-G\x22>durchsichtig\x20(5)\x20-\x20PET-G</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22violett\x20(7)\x20-\x20PLA\x22>violett\x20(7)\x20-\x20PLA</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22grün\x20(18)\x20-\x20PLA\x22>grün\x20(18)\x20-\x20PLA</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<option\x20value=\x22rot\x20(22)\x20-\x20PLA\x22>rot\x20(22)\x20-\x20PLA</option>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</select>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22number\x22\x20name=\x22productQuantity','\x22\x20value=\x22\x22\x20required\x20min=\x221\x22\x20placeholder=\x22Menge\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20type=\x22button\x22\x20class=\x22remove-btn\x22\x20onclick=\x22removeProduct(this)\x22>Löschen</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','discountCode','value','name','productQuantity'];_0x2972=function(){return _0x48d506;};return _0x2972();}let number=0x1;function addProduct(){const _0x4ef0c4=_0xd0f9,_0x4ddf54=document[_0x4ef0c4(0x182)](_0x4ef0c4(0x185)),_0x2de2e8=document['createElement'](_0x4ef0c4(0x187));_0x2de2e8[_0x4ef0c4(0x178)][_0x4ef0c4(0x18b)](_0x4ef0c4(0x17c)),_0x2de2e8[_0x4ef0c4(0x172)]=_0x4ef0c4(0x174)+number+_0x4ef0c4(0x18f)+number+_0x4ef0c4(0x19b)+number+_0x4ef0c4(0x19c),_0x4ddf54[_0x4ef0c4(0x1a1)](_0x2de2e8),number++;}function removeProduct(_0xadfaf1){const _0x139636=_0xd0f9;_0xadfaf1[_0x139636(0x198)](_0x139636(0x183))['remove']();}function _0xd0f9(_0x4dcbb9,_0x361820){const _0x29728a=_0x2972();return _0xd0f9=function(_0xd0f98,_0x15754a){_0xd0f98=_0xd0f98-0x170;let _0x452409=_0x29728a[_0xd0f98];return _0x452409;},_0xd0f9(_0x4dcbb9,_0x361820);}function submitForm(){const _0x4360b2=_0xd0f9;emailjs[_0x4360b2(0x195)](_0x4360b2(0x171));const _0x245073=document['getElementById'](_0x4360b2(0x190)),_0x121772=[];for(let _0x1271f3=0x1;_0x1271f3<number;_0x1271f3++){if(!_0x245073[_0x4360b2(0x17d)+_0x1271f3])continue;_0x121772['push']({'choice':_0x245073[_0x4360b2(0x17d)+_0x1271f3]['value'],'color':_0x245073[_0x4360b2(0x189)+_0x1271f3][_0x4360b2(0x19e)],'quantity':_0x245073[_0x4360b2(0x1a0)+_0x1271f3][_0x4360b2(0x19e)]});}emailjs[_0x4360b2(0x184)]('service_kfstl3c','template_15krpa2',{'name':_0x245073[_0x4360b2(0x19f)]['value'],'street':_0x245073['street'][_0x4360b2(0x19e)],'zipcode':_0x245073[_0x4360b2(0x196)][_0x4360b2(0x19e)],'phone':_0x245073[_0x4360b2(0x175)][_0x4360b2(0x19e)],'email':_0x245073[_0x4360b2(0x180)]['value'],'products':_0x121772,'discountCode':_0x245073['discountCode'][_0x4360b2(0x19e)],'paymentMethod':_0x245073['paymentMethod'][_0x4360b2(0x19e)],'teamLead':_0x245073['teamLead'][_0x4360b2(0x19e)],'comment':_0x245073[_0x4360b2(0x173)][_0x4360b2(0x19e)]})[_0x4360b2(0x191)](function(_0x5c0d96){const _0x346282=_0x4360b2;console[_0x346282(0x177)](_0x346282(0x199),_0x5c0d96),document[_0x346282(0x182)]('orderForm')[_0x346282(0x17e)](),alert(_0x346282(0x17f));},function(_0x656266){const _0x4c4625=_0x4360b2;console[_0x4c4625(0x177)](_0x4c4625(0x170),_0x656266),alert('Es\x20gab\x20einen\x20Fehler\x20beim\x20Senden\x20der\x20Bestellung.\x20Bitte\x20versuche\x20es\x20später\x20erneut.');});}
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
