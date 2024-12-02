@@ -177,6 +177,10 @@
                 <input type="text" id="teamLead" name="teamLead">
             </div>
 
+            <!-- Kommentar -->
+            <label for="comment">Kommentar (optional):</label>
+            <textarea id="comment" name="comment" rows="4" placeholder="Ihr Kommentar"></textarea>
+
             <!-- Absenden -->
             <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
         </form>
@@ -260,7 +264,8 @@
                 products: products,
                 discountCode: form.discountCode.value,
                 paymentMethod: form.paymentMethod.value,
-                teamLead: form.teamLead.value
+                teamLead: form.teamLead.value,
+                comment: form.comment.value
             })
             .then(function(response) {
                 console.log('Erfolgreich gesendet:', response);
