@@ -114,17 +114,23 @@
         .remove-btn:hover {
             background-color: #c0392b;
         }
-        .shipping-method {
-            background-color: white;
+        select {
+            background-color: white; /* Hintergrundfarbe */
             color: #333; /* Textfarbe */
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #ccc; /* Rahmen */
+            border-radius: 5px; /* Abgerundete Ecken */
             padding: 10px;
             font-size: 14px;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            appearance: none; /* Entfernt den Standardstil */
+            -webkit-appearance: none; /* Für Safari */
+            -moz-appearance: none; /* Für Firefox */
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" fill="%23333"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding-right: 30px; /* Platz für den Pfeil */
         }
+
     </style>
 </head>
 <body>
