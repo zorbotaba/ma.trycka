@@ -101,12 +101,6 @@
         }
         .product-item {
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .product-item select, .product-item input {
-            flex: 1;
         }
         .remove-btn {
             background-color: #e74c3c;
@@ -154,22 +148,6 @@
 
             <!-- Produkte -->
             <div id="productsContainer">
-                <div class="product-item">
-                    <select name="productChoice[]" required>
-                        <option value="">Produkt</option>
-                        <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
-                        <option value="Thermomix Weihnachtskugel">Thermomix Weihnachtskugel</option>
-                    </select>
-                    <select name="productColor[]" required>
-                        <option value="Farbe">Farbe</option>
-                        <option value="Rot">Rot</option>
-                        <option value="Blau">Blau</option>
-                        <option value="Grün">Grün</option>
-                        <option value="Weiß">Weiß</option>
-                    </select>
-                    <input type="number" name="productQuantity[]" value="" required min="1" placeholder="Menge">
-                    <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
-                </div>
             </div>
 
             <!-- Produkt hinzufügen -->
@@ -215,7 +193,7 @@
             if (discountCode === 'TM') {
                 teamLeadField.classList.remove('hidden');
                 paymentMethodField.classList.remove('hidden');
-                paymentMethodSelect.querySelectorAll('option')[1].classList.remove('hidden'); 
+                paymentMethodSelect.querySelectorAll('option')[1].classList.remove('hidden');
                 paymentMethodSelect.querySelectorAll('option')[2].classList.add('hidden');
             } else {
                 paymentMethodField.classList.add('hidden');
@@ -223,27 +201,31 @@
             }
         }
 
+        let number = 1;
+
         function addProduct() {
             const productsContainer = document.getElementById('productsContainer');
             const newProductItem = document.createElement('div');
             newProductItem.classList.add('product-item');
             newProductItem.innerHTML = `
-                <select name="productChoice[]" required>
+                <select name="productChoice${number}" required>
                     <option value="">Produkt</option>
                     <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
                     <option value="Thermomix Weihnachtskugel">Thermomix Weihnachtskugel</option>
                 </select>
-                <select name="productColor[]" required>
+                <select name="productColor${number}" required>
                     <option value="Farbe">Farbe</option>
                     <option value="Rot">Rot</option>
                     <option value="Blau">Blau</option>
                     <option value="Grün">Grün</option>
                     <option value="Weiß">Weiß</option>
                 </select>
-                <input type="number" name="productQuantity[]" value="" required min="1" placeholder="Menge">
+                <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
                 <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
             `;
             productsContainer.appendChild(newProductItem);
+
+            number++;
         }
 
         function removeProduct(button) {
@@ -253,18 +235,42 @@
         function submitForm() {
             // Submit the form using EmailJS
             emailjs.init('bekZiSDT9im5xlaPF'); // Deine Public Key
-
             const form = document.getElementById('orderForm');
-            emailjs.sendForm('service_kfstl3c', 'template_15krpa2', form)
-                .then(function(response) {
-                    console.log('Erfolgreich gesendet:', response);
-                    // Thank you message after successful submission
-                    document.getElementById('orderForm').reset();
-                    alert('Vielen Dank für Ihre Bestellung!');
-                }, function(error) {
-                    console.log('Fehler beim Senden:', error);
-                    alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
+
+            const products = [];
+
+            for (let i = 1; i < number; i++) {
+                if (!form["productChoice" + i]) {
+                    continue;
+                }
+
+                products.push({
+                    choice: form["productChoice" + i].value,
+                    color: form["productColor" + i].value,
+                    quantity: form["productQuantity" + i].value
                 });
+            }
+
+            emailjs.send('service_kfstl3c', 'template_15krpa2', {
+                name: form.name.value,
+                street: form.street.value,
+                zipcode: form.zipcode.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                products: products,
+                discountCode: form.discountCode.value,
+                paymentMethod: form.paymentMethod.value,
+                teamLead: form.teamLead.value
+            })
+            .then(function(response) {
+                console.log('Erfolgreich gesendet:', response);
+                // Thank you message after successful submission
+                document.getElementById('orderForm').reset();
+                alert('Vielen Dank für Ihre Bestellung!');
+            }, function(error) {
+                console.log('Fehler beim Senden:', error);
+                alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
+            });
         }
     </script>
 
