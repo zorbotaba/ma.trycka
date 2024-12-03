@@ -189,7 +189,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
 
         <form id="orderForm">
             <!-- Firma/Schule -->
-            <label for="name">Firma/Schule (optional)</label>
+            <label for="firma">Firma/Schule (optional)</label>
             <input type="text" id="name" name="name" required placeholder="Musterfirma">
 
             <!-- Name -->
@@ -378,6 +378,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 }
 
                 emailjs.send('service_kfstl3c', 'template_15krpa2', {
+                    firma: form.firma.value,
                     name: form.name.value,
                     street: form.street.value,
                     zipcode: form.zipcode.value,
