@@ -187,14 +187,14 @@ Hier klicken, um die Preislliste anzuzeigen.
         </div>
 
         <form id="orderForm">
-            <!-- Firma/Schule -->
-            <label for="name">Firma/Schule (optional)</label>
-            <input type="text" id="name" name="name" required placeholder="Musterfirma">
-            
             <!-- Name -->
             <label for="name">Vollständiger Name *</label>
             <input type="text" id="name" name="name" required placeholder="Max Mustermann">
 
+            <!-- Firma/Schule -->
+            <label for="name">Firma/Schule (optional)</label>
+            <input type="text" id="name" name="name" required placeholder="musterfirma">
+           
             <!-- Adresse -->
             <label for="street">Straße *</label>
             <input type="text" id="street" name="street" required placeholder="Musterstr. Nr">
@@ -269,7 +269,7 @@ Hier klicken, um die Preislliste anzuzeigen.
             <textarea id="comment" name="comment" rows="4" placeholder="Ihr Kommentar"></textarea>
 
             <!-- Absenden -->
-            <button type="button" onclick="submitForm()">Jetzt bestellen.</button>
+            <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
         <script>
 
             const cyrb53 = (str, seed = 0) => {
@@ -286,35 +286,22 @@ Hier klicken, um die Preislliste anzuzeigen.
         
             return 4294967296 * (2097151 & h2) + (h1 >>> 0);
         };
-        function handleDiscountCode() {
-            const discountCode = document.getElementById('discountCode').value;
-            const paymentMethodField = document.getElementById('paymentMethodField');
-            const teamLeadField = document.getElementById('teamLeadField');
-            const discountPrices = document.getElementById('discountPrices');
-            const shippingMethodField = document.getElementById('versandart'); // Versandart-Select-Feld
-            const shippingMessageField = document.getElementById('shippingMessage'); // Neues Textfeld für "Schule_Hombi"
-
-            // Rabattcode für Thermomix Logik
-            if (cyrb53(discountCode) == 3193212411298570) {
-                teamLeadField.classList.remove('hidden');
-                paymentMethodField.classList.remove('hidden');
-                discountPrices.classList.remove('hidden');
-                shippingMethodField.classList.remove('hidden');
-                shippingMessageField.classList.add('hidden');
+            function handleDiscountCode() {
+                const discountCode = document.getElementById('discountCode').value;
+                const paymentMethodField = document.getElementById('paymentMethodField');
+                const teamLeadField = document.getElementById('teamLeadField');
+                const discountPrices = document.getElementById('discountPrices');
+        
+                if (cyrb53(discountCode) == 6284681665773807) {
+                    teamLeadField.classList.remove('hidden');
+                    paymentMethodField.classList.remove('hidden');
+                    discountPrices.classList.remove('hidden'); // Zeige die Preise an
+                } else {
+                    paymentMethodField.classList.add('hidden');
+                    teamLeadField.classList.add('hidden');
+                    discountPrices.classList.add('hidden'); // Verstecke die Preise
+                }
             }
-            // Rabattcode für die Schule Hombrechtikon Logik
-            else if (discountCode === 'Schule_Hombi') {
-                shippingMethodField.classList.add('hidden'); // Versandart-Feld verstecken
-                shippingMessageField.classList.remove('hidden'); // Nachricht anzeigen
-            } else {
-                paymentMethodField.classList.add('hidden');
-                teamLeadField.classList.add('hidden');
-                discountPrices.classList.add('hidden');
-                shippingMethodField.classList.remove('hidden');
-                shippingMessageField.classList.add('hidden');
-            }
-        }
-
         
             let number = 1;
         
@@ -338,11 +325,6 @@ Hier klicken, um die Preislliste anzuzeigen.
                         <option value="">Produkt</option>
                         <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
                         <option value="Thermomix Christbaumschmuck">Thermomix Christbaumschmuck</option>
-                        <option value="Fidget Würfel">Fidget Würfel</option>
-                        <option value="Fidget Octopus">Fidget Octopus</option>
-                        <option value="Fidget Echse">Fidget Echse</option>
-                        <option value="Fidget Kreis">Fidget Kreis</option>
-                        <option value="Fidget Schneemann">Fidget Schneemann</option>
                     </select>
                     <select name="productColor${number}" required>
                         <option value="Farbe">Farbe</option>
@@ -399,8 +381,8 @@ Hier klicken, um die Preislliste anzuzeigen.
                     email: form.email.value,
                     products: products,
                     discountCode: form.discountCode.value,
-                    paymentMethod: form.discountCode.value === 'ThermomixberaterIn_0000' ? form.paymentMethod.value : '',
-                    teamLead: form.discountCode.value === 'ThermomixberaterIn_0000' ? form.teamLead.value : '',
+                    paymentMethod: form.discountCode.value === '(cyrb53(discountCode) == 6284681665773807)' ? form.paymentMethod.value : '',
+                    teamLead: form.discountCode.value === '(cyrb53(discountCode) == 6284681665773807)' ? form.teamLead.value : '',
                     comment: form.comment.value
                 }).then(function(response) {
                     console.log('Erfolgreich gesendet:', response);
