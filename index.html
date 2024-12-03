@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -189,7 +190,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
         <form id="orderForm">
             <!-- Firma/Schule -->
             <label for="firma">Firma/Schule (optional)</label>
-            <input type="text" id="name" name="name" required placeholder="Musterfirma">
+            <input type="text" id="firma" name="firma" required placeholder="Musterfirma">
 
             <!-- Name -->
             <label for="name">Vollständiger Name *</label>
@@ -375,7 +376,6 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                         quantity: form["productQuantity" + i].value
                     });
                 }
-
                 emailjs.send('service_kfstl3c', 'template_15krpa2', {
                     firma: form.firma.value,
                     name: form.name.value,
@@ -418,7 +418,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     const thankYouMessage = document.createElement('div');
                     thankYouMessage.className = 'thank-you-message';
                     thankYouMessage.innerHTML = `
-                        <strong>Vielen Dank für Ihre Bestellung!</strong><br>
+                        <strong>Vielen Dank für Ihre Bestellung!</strong><br><br>
                         Die momentane Lieferzeit beträgt zwischen 5 und 21 Tagen.
                     `;
                     form.parentNode.appendChild(thankYouMessage);
