@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -187,13 +188,13 @@ Hier klicken, um die Preislliste anzuzeigen.
         </div>
 
         <form id="orderForm">
+            <!-- Firma/Schule -->
+            <label for="name">Firma/Schule (optional)</label>
+            <input type="text" id="name" name="name" required placeholder="Musterfirma">
+
             <!-- Name -->
             <label for="name">Vollständiger Name *</label>
             <input type="text" id="name" name="name" required placeholder="Max Mustermann">
-
-            <!-- Firma/Schule -->
-            <label for="name">Firma/Schule (optional)</label>
-            <input type="text" id="name" name="name" required placeholder="musterfirma">
            
             <!-- Adresse -->
             <label for="street">Straße *</label>
@@ -323,6 +324,11 @@ Hier klicken, um die Preislliste anzuzeigen.
                 newProductItem.innerHTML = `
                     <select name="productChoice${number}" required>
                         <option value="">Produkt</option>
+                        <option value="Fidget Echse">Fidget Echse</option>
+                        <option value="Fidget Kreis">Fidget Kreis</option>
+                        <option value="Fidget Schneemann">Fidget Schneemann</option>
+                        <option value="Fidget Oktopus">Fidget Oktopus</option>
+                        <option value="Fidget Würfel">Fidget Würfel</option>
                         <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
                         <option value="Thermomix Christbaumschmuck">Thermomix Christbaumschmuck</option>
                     </select>
