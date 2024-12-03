@@ -163,34 +163,6 @@
             background-size: 12px; /* Größe des Pfeils */
             padding-right: 30px; /* Platz für den Pfeil */
         }
-
-        .product-row {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Abstand zwischen den Elementen */
-            margin-bottom: 10px; /* Abstand zwischen den Zeilen */
-        }
-
-        .product-row > div {
-            flex: 1; /* Jedes Feld nimmt gleichmäßig Platz ein */
-        }
-
-        .product-row input[type="number"] {
-            width: 60px; /* Fixiere die Breite des Mengenfeldes */
-        }
-
-        .product-row button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        .product-row button:hover {
-            background-color: #c0392b;
-        }
-
     </style>
 </head>
 <body>
@@ -314,90 +286,86 @@ Hier klicken, um die Preislliste anzuzeigen.
         
             return 4294967296 * (2097151 & h2) + (h1 >>> 0);
         };
-            function handleDiscountCode() {
-                const discountCode = document.getElementById('discountCode').value;
-                const paymentMethodField = document.getElementById('paymentMethodField');
-                const teamLeadField = document.getElementById('teamLeadField');
-                const discountPrices = document.getElementById('discountPrices');
-        
-                if (cyrb53(discountCode) == 3193212411298570) {
-                    teamLeadField.classList.remove('hidden');
-                    paymentMethodField.classList.remove('hidden');
-                    discountPrices.classList.remove('hidden'); // Zeige die Preise an
-                } else {
-                    paymentMethodField.classList.add('hidden');
-                    teamLeadField.classList.add('hidden');
-                    discountPrices.classList.add('hidden'); // Verstecke die Preise
-                }
+        function handleDiscountCode() {
+            const discountCode = document.getElementById('discountCode').value;
+            const paymentMethodField = document.getElementById('paymentMethodField');
+            const teamLeadField = document.getElementById('teamLeadField');
+            const discountPrices = document.getElementById('discountPrices');
+            const shippingMethodField = document.getElementById('versandart'); // Versandart-Select-Feld
+            const shippingMessageField = document.getElementById('shippingMessage'); // Neues Textfeld für "Schule_Hombi"
+
+            // Rabattcode für Thermomix Logik
+            if (cyrb53(discountCode) == 3193212411298570) {
+                teamLeadField.classList.remove('hidden');
+                paymentMethodField.classList.remove('hidden');
+                discountPrices.classList.remove('hidden');
+                shippingMethodField.classList.remove('hidden');
+                shippingMessageField.classList.add('hidden');
             }
+            // Rabattcode für die Schule Hombrechtikon Logik
+            else if (discountCode === 'Schule_Hombi') {
+                shippingMethodField.classList.add('hidden'); // Versandart-Feld verstecken
+                shippingMessageField.classList.remove('hidden'); // Nachricht anzeigen
+            } else {
+                paymentMethodField.classList.add('hidden');
+                teamLeadField.classList.add('hidden');
+                discountPrices.classList.add('hidden');
+                shippingMethodField.classList.remove('hidden');
+                shippingMessageField.classList.add('hidden');
+            }
+        }
+
         
             let number = 1;
         
             function addProduct() {
                 const productsContainer = document.getElementById('productsContainer');
-
+        
                 const productWrapper = document.createElement('div');
                 productWrapper.classList.add('product-wrapper');
                 productWrapper.style.marginBottom = "20px";
-
+        
                 const separator = document.createElement('hr');
                 separator.style.border = "0";
                 separator.style.height = "1px";
                 separator.style.background = "#ccc";
                 separator.style.margin = "20px 0";
-
+        
                 const newProductItem = document.createElement('div');
                 newProductItem.classList.add('product-item');
                 newProductItem.innerHTML = `
-                    <div class="product-row">
-                        <div>
-                            <label for="productChoice${number}">Produkt:</label>
-                            <input list="productList${number}" name="productChoice${number}" required>
-                            <datalist id="productList${number}">
-                                <option value="Thermomix Schlüsselanhänger">
-                                <option value="Thermomix Christbaumschmuck">
-                                <option value="Fidget Würfel">
-                                <option value="Fidget Octopus">
-                                <option value="Fidget Echse">
-                                <option value="Fidget Kreis">
-                                <option value="Fidget Schneemann">
-                            </datalist>
-                        </div>
-                        <div>
-                            <label for="productColor${number}">Farbe:</label>
-                            <input list="colorList${number}" name="productColor${number}" required>
-                            <datalist id="colorList${number}">
-                                <option value="weiss (1) - PLA">
-                                <option value="schwarz (2) - PLA">
-                                <option value="weiss (3) - TPU">
-                                <option value="dunkelblau (4) - PET-G">
-                                <option value="durchsichtig (5) - PET-G">
-                                <option value="violett (7) - PLA">
-                                <option value="grün (18) - PLA">
-                                <option value="rot (22) - PLA">
-                            </datalist>
-                        </div>
-                        <div>
-                            <label for="productQuantity${number}">Menge:</label>
-                            <input type="number" name="productQuantity${number}" required min="1" placeholder="Menge">
-                        </div>
-                        <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
-                    </div>
+                    <select name="productChoice${number}" required>
+                        <option value="">Produkt</option>
+                        <option value="Thermomix Schlüsselanhänger">Thermomix Schlüsselanhänger</option>
+                        <option value="Thermomix Christbaumschmuck">Thermomix Christbaumschmuck</option>
+                        <option value="Fidget Würfel">Fidget Würfel</option>
+                        <option value="Fidget Octopus">Fidget Octopus</option>
+                        <option value="Fidget Echse">Fidget Echse</option>
+                        <option value="Fidget Kreis">Fidget Kreis</option>
+                        <option value="Fidget Schneemann">Fidget Schneemann</option>
+                    </select>
+                    <select name="productColor${number}" required>
+                        <option value="Farbe">Farbe</option>
+                        <option value="weiss (1) - PLA">weiss (1) - PLA</option>
+                        <option value="schwarz (2) - PLA">schwarz (2) - PLA</option>
+                        <option value="weiss (3) - TPU">weiss (3) - TPU</option>
+                        <option value="dunkelblau (4) - PET-G">dunkelblau (4) - PET-G</option>
+                        <option value="durchsichtig (5) - PET-G">durchsichtig (5) - PET-G</option>
+                        <option value="violett (7) - PLA">violett (7) - PLA</option>
+                        <option value="grün (18) - PLA">grün (18) - PLA</option>
+                        <option value="rot (22) - PLA">rot (22) - PLA</option>
+                    </select>
+                    <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
+                    <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
                 `;
-
-
-
+        
                 productWrapper.appendChild(separator);
                 productWrapper.appendChild(newProductItem);
-
+        
                 productsContainer.appendChild(productWrapper);
-
-                // Wende Select2 auf das Dropdown an, um die Suchfunktion zu aktivieren
-                $('.searchable-dropdown').select2();
-
+        
                 number++;
             }
-
         
             function removeProduct(button) {
                 const productWrapper = button.closest('.product-wrapper'); // Nächsten Wrapper finden
