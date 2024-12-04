@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -218,18 +217,6 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     <option value="Postversand (+ 8.5.-)">Postversand (+ 8.5.-)</option>
                 </select> -->
 
-
-            <!-- Produkte -->
-            <div id="productsContainer">
-            </div>
-
-            <!-- Produkt hinzufügen -->
-            <div class="add-product-btn-container">
-                <div class="add-product-btn">
-                    <a href="javascript:void(0);" onclick="addProduct()">Produkt hinzufügen</a>
-                </div>
-            </div>
-            <br>
             <!-- Rabattcode -->
             <div id="discountCodeField">
                 <label for="discountCode">Rabattcode/Code (optional, nur falls vorhanden)</label>
@@ -246,8 +233,9 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 <p>=> Für alle anderen 3D-Drucke gelten die Standardpreise.</p>
                 <br>
                 <br>
-                <p>Falls Sie einen Thermomix einer Sonderfarbe wünschen, notieren Sie dies bitte im Kommentarfeld.</p>
-                <p>Z.B.: Thermomix Schlüsselanhänger, lachs (11), 6</p>
+                <br>
+                <strong>Info zur Farbe:</strong>
+                <p>Die Zahl in der zweiten Klammer (nach der Materialangabe) zeigt, wie viele Thermomix's ich (noch) daraus drucken kann. Steht da ein x, heisst das, dass ich beinahe unbegrenzt viele davon drucken kann.</p>
             </div>
 
             <!-- Dynamische Felder für Rabattcode -->
@@ -264,6 +252,18 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 <input type="text" id="teamLead" name="teamLead" placeholder="Max Mustermann">
             </div>
 
+            <!-- Produkte -->
+            <div id="productsContainer">
+            </div>
+
+            <!-- Produkt hinzufügen -->
+            <div class="add-product-btn-container">
+                <div class="add-product-btn">
+                    <a href="javascript:void(0);" onclick="addProduct()">Produkt hinzufügen</a>
+                </div>
+            </div>
+            <br>
+
             <!-- Kommentar -->
             <label for="comment">Kommentar (optional)</label>
             <textarea id="comment" name="comment" rows="4" placeholder="Ihr Kommentar"></textarea>
@@ -271,6 +271,51 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
             <!-- Absenden -->
             <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
         <script>
+            // Funktion zur Aktualisierung der Farbauswahl
+            function updateColorOptions(selectElement, isDiscountActive) {
+                const defaultColors = [
+                    "Farbe",
+                    "weiss (1) - PLA",
+                    "schwarz (2) - PLA",
+                    "weiss (3) - TPU",
+                    "dunkelblau (4) - PET-G",
+                    "durchsichtig (5) - PET-G",
+                    "violett (7) - PLA",
+                    "grün (18) - PLA",
+                    "rot (22) - PLA"
+                ];
+
+                // Clear current options
+                selectElement.innerHTML = '';
+
+                // Add default colors
+                defaultColors.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    selectElement.appendChild(option);
+                });
+
+                // Add extra colors if discount is active
+                if (isDiscountActive) {
+                    extraColors.forEach(color => {
+                        const option = document.createElement('option');
+                        option.value = color;
+                        option.textContent = color;
+                        selectElement.appendChild(option);
+                    });
+                }
+            }
+
+
+            function getAvailableColors(product) {
+                // Prüfen, ob das Produkt der Thermomix-Schlüsselanhänger ist
+                if (product === 'Thermomix-Schlüsselanhänger') {
+                    return specialColors; // Spezialfarben anzeigen
+                } else {
+                    return normalColors; // Normale Farben anzeigen
+                }
+            }
 
             const cyrb53 = (str, seed = 0) => {
             let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
@@ -307,17 +352,17 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
         
             function addProduct() {
                 const productsContainer = document.getElementById('productsContainer');
-        
+
                 const productWrapper = document.createElement('div');
                 productWrapper.classList.add('product-wrapper');
                 productWrapper.style.marginBottom = "20px";
-        
+
                 const separator = document.createElement('hr');
                 separator.style.border = "0";
                 separator.style.height = "1px";
                 separator.style.background = "#ccc";
                 separator.style.margin = "20px 0";
-        
+
                 const newProductItem = document.createElement('div');
                 newProductItem.classList.add('product-item');
                 newProductItem.innerHTML = `
@@ -332,26 +377,36 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     </select>
                     <select name="productColor${number}" required>
                         <option value="Farbe">Farbe</option>
-                        <option value="weiss (1) - PLA">weiss (1) - PLA</option>
-                        <option value="schwarz (2) - PLA">schwarz (2) - PLA</option>
-                        <option value="weiss (3) - TPU">weiss (3) - TPU</option>
-                        <option value="dunkelblau (4) - PET-G">dunkelblau (4) - PET-G</option>
-                        <option value="durchsichtig (5) - PET-G">durchsichtig (5) - PET-G</option>
-                        <option value="violett (7) - PLA">violett (7) - PLA</option>
-                        <option value="grün (18) - PLA">grün (18) - PLA</option>
-                        <option value="rot (22) - PLA">rot (22) - PLA</option>
+                        <!-- Farben werden dynamisch hinzugefügt -->
                     </select>
                     <input type="number" name="productQuantity${number}" value="" required min="1" placeholder="Menge">
                     <button type="button" class="remove-btn" onclick="removeProduct(this)">Löschen</button>
                 `;
-        
+
                 productWrapper.appendChild(separator);
                 productWrapper.appendChild(newProductItem);
-        
+
                 productsContainer.appendChild(productWrapper);
-        
+
                 number++;
+
+                // Überwacht die Änderungen an der Produktwahl und passt die Farben an
+                const productSelect = newProductItem.querySelector(`select[name^="productChoice"]`);
+                const colorSelect = newProductItem.querySelector(`select[name^="productColor"]`);
+
+                productSelect.addEventListener('change', function() {
+                    const isDiscountActiveFlag = isDiscountActive();
+                    updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                });
+
+                // Initiale Farbauswahl
+                updateColorOptions(colorSelect, isDiscountActive(), productSelect.value);
             }
+
+
+
+
+
         
             function removeProduct(button) {
                 const productWrapper = button.closest('.product-wrapper'); // Nächsten Wrapper finden
@@ -427,6 +482,118 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     alert('Es gab einen Fehler beim Senden der Bestellung. Bitte versuche es später erneut.');
                 });
             }
+
+            // Zusätzliche Farben, wenn Rabattcode gültig ist
+            const extraColors = [
+                "Farbe",
+                "violett (6) - PLA (1)",
+                "violett (8) - PLA (1)",
+                "violett/pink (9) - PLA (1)",
+                "dunkelblau (12) - PLA (1)",
+                "mittelblau (13) - PLA (1)",
+                "hellblau (15) - PLA (1)",
+                "leuchtgrün (16) - PLA (1)",
+                "leicht leuchtgrün (17) - PLA (1)",
+                "hellgrün (19) - PLA (1)",
+                "dunkelrot (20) - PLA (1)",
+                "dunkelrot (21) - PLA (1)",
+                "gelb (26) - PLA (1)",
+                "dunkelbraun (28) - PLA (6)",
+                "dunkelbraun (29) - PLA (1)",
+                "hellbraun (30) (x)",
+            ];
+
+            // Funktion zur Aktualisierung der Farbauswahl
+            // Funktion zur Aktualisierung der Farbauswahl
+            function updateColorOptions(selectElement, isDiscountActive, product) {
+                const defaultColors = [
+                    "Farbe",
+                    "weiss (1) - PLA",
+                    "schwarz (2) - PLA",
+                    "weiss (3) - TPU",
+                    "dunkelblau (4) - PET-G",
+                    "durchsichtig (5) - PET-G",
+                    "violett (7) - PLA",
+                    "grün (18) - PLA",
+                    "rot (22) - PLA"
+                ];
+
+                const extraColors = [
+                    "Farbe",
+                    "violett (6) - PLA (1)",
+                    "violett (8) - PLA (1)",
+                    "violett/pink (9) - PLA (1)",
+                    "dunkelblau (12) - PLA (1)",
+                    "mittelblau (13) - PLA (1)",
+                    "hellblau (15) - PLA (1)",
+                    "leuchtgrün (16) - PLA (1)",
+                    "leicht leuchtgrün (17) - PLA (1)",
+                    "hellgrün (19) - PLA (1)",
+                    "dunkelrot (20) - PLA (1)",
+                    "dunkelrot (21) - PLA (1)",
+                    "gelb (26) - PLA (1)",
+                    "dunkelbraun (28) - PLA (6)",
+                    "dunkelbraun (29) - PLA (1)",
+                    "hellbraun (30) (x)"
+                ];
+
+                // Standardfarben für alle Produkte
+                const colorsToDisplay = product === 'Thermomix Schlüsselanhänger' && isDiscountActive ? extraColors : defaultColors;
+
+                // Clear current options
+                selectElement.innerHTML = '';
+
+                // Add color options to select dropdown
+                colorsToDisplay.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    selectElement.appendChild(option);
+                });
+            }
+
+
+
+            function monitorDiscountAndProduct() {
+                const discountCodeField = document.getElementById('discountCode');
+                const productsContainer = document.getElementById('productsContainer');
+
+                // Überprüft, ob der Rabattcode gültig ist
+                function isDiscountActive() {
+                    return cyrb53(discountCodeField.value) == 6284681665773807;
+                }
+
+                // Wenn sich das Produkt ändert, wird die Farbauswahl aktualisiert
+                productsContainer.addEventListener('change', event => {
+                    if (event.target.name.startsWith("productChoice")) {
+                        const productSelect = event.target;
+                        const colorSelect = productSelect.closest('.product-item').querySelector(`select[name^="productColor"]`);
+                        const isDiscountActiveFlag = isDiscountActive();
+                        updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                    }
+                });
+
+                // Rabattcode-Änderung überwachen und Farben entsprechend aktualisieren
+                discountCodeField.addEventListener('input', () => {
+                    // Durchläuft alle Produkte und überprüft, ob sie "Thermomix Schlüsselanhänger" sind
+                    const productItems = productsContainer.querySelectorAll('.product-item');
+                    productItems.forEach(item => {
+                        const productSelect = item.querySelector(`select[name^="productChoice"]`);
+                        const colorSelect = item.querySelector(`select[name^="productColor"]`);
+                        const isDiscountActiveFlag = isDiscountActive();
+                        updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                    });
+                });
+            }
+
+
+
+
+
+
+            // Monitor-Funktion beim Laden der Seite starten
+            monitorDiscountAndProduct();
+
 
 
 
