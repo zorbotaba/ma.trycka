@@ -547,13 +547,17 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     "hellbraun (30) (x)"
                 ];
 
-                // Kombiniere Standardfarben und Sonderfarben bei gültigem Rabattcode
-                const colorsToDisplay = isDiscountActive ? [...defaultColors, ...extraColors] : defaultColors;
+                let colorsToDisplay = defaultColors;
 
-                // Clear current options
+                // Wenn der Rabattcode stimmt und das Produkt "Thermomix Schlüsselanhänger" ist
+                if (isDiscountActive && product === 'Thermomix Schlüsselanhänger') {
+                    colorsToDisplay = [...defaultColors, ...extraColors]; // Normale und Sonderfarben kombinieren
+                }
+
+                // Dropdown-Feld leeren
                 selectElement.innerHTML = '';
 
-                // Add color options to select dropdown
+                // Optionen hinzufügen
                 colorsToDisplay.forEach(color => {
                     const option = document.createElement('option');
                     option.value = color;
@@ -561,6 +565,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     selectElement.appendChild(option);
                 });
             }
+
 
 
 
@@ -584,14 +589,14 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     }
                 });
 
-                // Rabattcode-Änderung überwachen und Farben entsprechend aktualisieren
+
                 discountCodeField.addEventListener('input', () => {
-                    // Durchläuft alle Produkte und überprüft, ob sie "Thermomix Schlüsselanhänger" sind
+                    const isDiscountActiveFlag = isDiscountActive();
                     const productItems = productsContainer.querySelectorAll('.product-item');
+
                     productItems.forEach(item => {
                         const productSelect = item.querySelector(`select[name^="productChoice"]`);
                         const colorSelect = item.querySelector(`select[name^="productColor"]`);
-                        const isDiscountActiveFlag = isDiscountActive();
                         updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
                     });
                 });
