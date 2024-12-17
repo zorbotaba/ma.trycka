@@ -210,12 +210,16 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
             <label for="email">Mailadresse *</label>
             <input type="email" id="email" name="email" required placeholder="muster@mann.ch">
 
-            <label for="versandart">Versandart *</label>
-                <select name="versandart" class="no-background" required aria-placeholder="Versandart">
+            <div id="shippingMethodContainer" style="margin-bottom: 20px; width: 100%;">
+                <label for="versandart" style="display: block; margin-bottom: 5px; width: 100%;">Versandart *</label>
+                <select name="versandart" class="no-background" required aria-placeholder="Versandart" style="width: 100%; box-sizing: border-box;">
                     <option value="">Versandart</option>
                     <option value="Abholung in Wolfhausen ZH">Abholung in Wolfhausen ZH</option>
                     <option value="Postversand (+ 8.5.-)">Postversand (+ 8.5.-)</option>
-                </select> 
+                </select>
+            </div>
+            
+               
 
             <!-- Rabattcode -->
             <div id="discountCodeField">
@@ -272,11 +276,12 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
             <button type="button" onclick="submitForm()">Jetzt Bestellen.</button>
         <script>
             // Funktion zur Aktualisierung der Farbauswahl
-            function updateColorOptions(selectElement, isDiscountActive) {
+            function updateColorOptions(selectElement, product) {
                 const defaultColors = [
                     "Farbe",
                     "weiss (1) - PLA",
                     "schwarz (2) - PLA",
+                    "grau - PLA",
                     "weiss (3) - TPU",
                     "dunkelblau (4) - PET-G",
                     "durchsichtig (5) - PET-G",
@@ -285,27 +290,25 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     "rot (22) - PLA"
                 ];
 
-                // Clear current options
+                const specificColors = ["weiss (1) - PLA", "schwarz (2) - PLA", "grau - PLA"];
+
+                // Farben basierend auf Produkt setzen
+                const colorsToDisplay = (product === "Batterien Harasse AA" || product === "Batterien Harasse AAA")
+                    ? specificColors
+                    : defaultColors;
+
+                // Vorherige Optionen entfernen
                 selectElement.innerHTML = '';
 
-                // Add default colors
-                defaultColors.forEach(color => {
+                // Neue Optionen hinzufügen
+                colorsToDisplay.forEach(color => {
                     const option = document.createElement('option');
                     option.value = color;
                     option.textContent = color;
                     selectElement.appendChild(option);
                 });
-
-                // Add extra colors if discount is active
-                if (isDiscountActive) {
-                    extraColors.forEach(color => {
-                        const option = document.createElement('option');
-                        option.value = color;
-                        option.textContent = color;
-                        selectElement.appendChild(option);
-                    });
-                }
             }
+
 
 
             function getAvailableColors(product) {
@@ -331,22 +334,25 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
         
             return 4294967296 * (2097151 & h2) + (h1 >>> 0);
         };
-            function handleDiscountCode() {
-                const discountCode = document.getElementById('discountCode').value;
-                const paymentMethodField = document.getElementById('paymentMethodField');
-                const teamLeadField = document.getElementById('teamLeadField');
-                const discountPrices = document.getElementById('discountPrices');
-        
-                if (cyrb53(discountCode) == 6284681665773807) {
-                    teamLeadField.classList.remove('hidden');
-                    paymentMethodField.classList.remove('hidden');
-                    discountPrices.classList.remove('hidden'); // Zeige die Preise an
-                } else {
-                    paymentMethodField.classList.add('hidden');
-                    teamLeadField.classList.add('hidden');
-                    discountPrices.classList.add('hidden'); // Verstecke die Preise
-                }
+        function handleDiscountCode() {
+            const discountCode = document.getElementById('discountCode').value;
+            const paymentMethodField = document.getElementById('paymentMethodField');
+            const teamLeadField = document.getElementById('teamLeadField');
+            const discountPrices = document.getElementById('discountPrices');
+            const shippingMethodContainer = document.getElementById('shippingMethodContainer');
+
+            if (cyrb53(discountCode) == 6284681665773807) {
+                teamLeadField.classList.remove('hidden');
+                paymentMethodField.classList.remove('hidden');
+                discountPrices.classList.remove('hidden'); // Zeige die Preise an
+                shippingMethodContainer.classList.add('hidden'); // Verstecke Versandart und Label
+            } else {
+                paymentMethodField.classList.add('hidden');
+                teamLeadField.classList.add('hidden');
+                discountPrices.classList.add('hidden'); // Verstecke die Preise
+                shippingMethodContainer.classList.remove('hidden'); // Zeige Versandart und Label
             }
+        }
         
             let number = 1;
         
@@ -368,6 +374,8 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 newProductItem.innerHTML = `
                     <select name="productChoice${number}" required>
                         <option value="">Produkt</option>
+                        <option value="Batterien Harasse AA">Batterien Harasse AA</option>
+                        <option value="Batterien Harasse AAA">Batterien Harasse AAA</option>
                         <option value="Fidget Echse">Fidget Echse</option>
                         <option value="Fidget Schlange">Fidget Schlange</option>
                         <option value="Fidget Schneemann">Fidget Schneemann</option>
@@ -396,9 +404,9 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 const colorSelect = newProductItem.querySelector(`select[name^="productColor"]`);
 
                 productSelect.addEventListener('change', function() {
-                    const isDiscountActiveFlag = isDiscountActive();
-                    updateColorOptions(colorSelect, isDiscountActiveFlag, productSelect.value);
+                    updateColorOptions(colorSelect, productSelect.value);
                 });
+
 
                 // Initiale Farbauswahl
                 updateColorOptions(colorSelect, isDiscountActive(), productSelect.value);
@@ -512,6 +520,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     "Farbe",
                     "weiss (1) - PLA",
                     "schwarz (2) - PLA",
+                    "grau - PLA",
                     "weiss (3) - TPU",
                     "dunkelblau (4) - PET-G",
                     "durchsichtig (5) - PET-G",
@@ -603,5 +612,41 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
         
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const produktAuswahl = document.getElementById('produktAuswahl');
+          const farbeAuswahl = document.getElementById('farbeAuswahl');
+      
+          // Speichern Sie alle ursprünglichen Farboptionen
+          const alleFarben = Array.from(farbeAuswahl.options).map(option => option.cloneNode(true));
+      
+          produktAuswahl.addEventListener('change', function() {
+            const ausgewähltesProdukt = this.value;
+      
+            // Leeren Sie die aktuellen Farboptionen
+            farbeAuswahl.innerHTML = '';
+      
+            if (ausgewähltesProdukt === 'batterien_harasse_aa' || ausgewähltesProdukt === 'batterien_harasse_aaa') {
+              // Definierte Farben für die ausgewählten Produkte
+              const erlaubteFarben = ['grau_pla', 'schwarz1_pla', 'schwarz2_pla', 'weiss_pla'];
+              alleFarben.forEach(option => {
+                if (erlaubteFarben.includes(option.value)) {
+                  farbeAuswahl.appendChild(option.cloneNode(true));
+                }
+              });
+            } else {
+              // Alle Farben anzeigen für andere Produkte
+              alleFarben.forEach(option => {
+                farbeAuswahl.appendChild(option.cloneNode(true));
+              });
+            }
+      
+            // Optional: Setzen Sie die Farbauswahl zurück
+            farbeAuswahl.selectedIndex = 0;
+          });
+        });
+      </script>
+      
 </body>
 </html>
