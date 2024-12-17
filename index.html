@@ -510,7 +510,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 "gelb (26) - PLA (1)",
                 "dunkelbraun (28) - PLA (6)",
                 "dunkelbraun (29) - PLA (1)",
-                "hellbraun (30) (x)",
+                "hellbraun (30) (x)"
             ];
 
             // Funktion zur Aktualisierung der Farbauswahl
@@ -530,7 +530,6 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 ];
 
                 const extraColors = [
-                    "Farbe",
                     "violett (6) - PLA (1)",
                     "violett (8) - PLA (1)",
                     "violett/pink (9) - PLA (1)",
@@ -548,8 +547,8 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     "hellbraun (30) (x)"
                 ];
 
-                // Standardfarben für alle Produkte
-                const colorsToDisplay = product === 'Thermomix Schlüsselanhänger' && isDiscountActive ? extraColors : defaultColors;
+                // Kombiniere Standardfarben und Sonderfarben bei gültigem Rabattcode
+                const colorsToDisplay = isDiscountActive ? [...defaultColors, ...extraColors] : defaultColors;
 
                 // Clear current options
                 selectElement.innerHTML = '';
@@ -562,6 +561,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                     selectElement.appendChild(option);
                 });
             }
+
 
 
 
