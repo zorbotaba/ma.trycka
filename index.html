@@ -94,7 +94,7 @@
             border: 1px solid #ff9800;
             border-radius: 20px;
             cursor: pointer;
-            text-decoration: none; /* Keine Unterstreichung */
+            text-decoration: none; 
         }
         .add-product-btn:hover {
             background-color: #ffeb3b;
@@ -163,6 +163,8 @@
             background-size: 12px; /* Größe des Pfeils */
             padding-right: 30px; /* Platz für den Pfeil */
         }
+
+        
     </style>
 </head>
 <body>
@@ -196,7 +198,7 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
             <input type="text" id="name" name="name" required placeholder="Max Mustermann">
            
             <!-- Adresse -->
-            <label for="street">Straße *</label>
+            <label for="street">Strasse *</label>
             <input type="text" id="street" name="street" required placeholder="Musterstr. Nr">
 
             <label for="zipcode">PLZ/Ort *</label>
@@ -320,39 +322,25 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
                 }
             }
 
-            const cyrb53 = (str, seed = 0) => {
-            let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-            for(let i = 0, ch; i < str.length; i++) {
-                ch = str.charCodeAt(i);
-                h1 = Math.imul(h1 ^ ch, 2654435761);
-                h2 = Math.imul(h2 ^ ch, 1597334677);
-            }
-            h1  = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
-            h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-            h2  = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
-            h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-        
-            return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-        };
-        function handleDiscountCode() {
-            const discountCode = document.getElementById('discountCode').value;
-            const paymentMethodField = document.getElementById('paymentMethodField');
-            const teamLeadField = document.getElementById('teamLeadField');
-            const discountPrices = document.getElementById('discountPrices');
-            const shippingMethodContainer = document.getElementById('shippingMethodContainer');
+            function handleDiscountCode() {
+                const discountCode = document.getElementById('discountCode').value;
+                const paymentMethodField = document.getElementById('paymentMethodField');
+                const teamLeadField = document.getElementById('teamLeadField');
+                const discountPrices = document.getElementById('discountPrices');
+                const shippingMethodContainer = document.getElementById('shippingMethodContainer');
 
-            if (cyrb53(discountCode) == 6284681665773807) {
-                teamLeadField.classList.remove('hidden');
-                paymentMethodField.classList.remove('hidden');
-                discountPrices.classList.remove('hidden'); // Zeige die Preise an
-                shippingMethodContainer.classList.add('hidden'); // Verstecke Versandart und Label
-            } else {
-                paymentMethodField.classList.add('hidden');
-                teamLeadField.classList.add('hidden');
-                discountPrices.classList.add('hidden'); // Verstecke die Preise
-                shippingMethodContainer.classList.remove('hidden'); // Zeige Versandart und Label
+                if (cyrb53(discountCode) == 6284681665773807) {
+                    teamLeadField.classList.remove('hidden');
+                    paymentMethodField.classList.remove('hidden');
+                    discountPrices.classList.remove('hidden'); // Zeige die Preise an
+                    shippingMethodContainer.classList.add('hidden'); // Verstecke Versandart und Label
+                } else {
+                    paymentMethodField.classList.add('hidden');
+                    teamLeadField.classList.add('hidden');
+                    discountPrices.classList.add('hidden'); // Verstecke die Preise
+                    shippingMethodContainer.classList.remove('hidden'); // Zeige Versandart und Label
+                }
             }
-        }
         
             let number = 1;
         
@@ -619,6 +607,21 @@ Für die Farb-, Produkt- und Preisliste hier klicken.
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
+        const cyrb53 = (str, seed = 0) => {
+            let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+            for(let i = 0, ch; i < str.length; i++) {
+                ch = str.charCodeAt(i);
+                h1 = Math.imul(h1 ^ ch, 2654435761);
+                h2 = Math.imul(h2 ^ ch, 1597334677);
+            }
+            h1  = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+            h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+            h2  = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+            h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+        
+            return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
           const produktAuswahl = document.getElementById('produktAuswahl');
           const farbeAuswahl = document.getElementById('farbeAuswahl');
